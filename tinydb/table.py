@@ -113,8 +113,7 @@ class Table:
     def __repr__(self):
         args = [
             'name={!r}'.format(self.name),
-            'total={}'.format(len(self)),
-            'storage={}'.format(self._storage),
+            'storage={}'.format(self.storage.__name__),
         ]
 
         return '<{} {}>'.format(type(self).__name__, ', '.join(args))
@@ -503,26 +502,6 @@ class Table:
         """
 
         self._query_cache.clear()
-
-    def __len__(self):
-        """
-        Count the total number of documents in this table.
-        """
-
-        # Using self._read_table() will convert all documents into
-        # the document class. But for counting the number of documents
-        # this conversion is not necessary, thus we read the storage
-        # directly here
-
-        tables = self._storage.read()
-
-        if tables is None:
-            return 0
-
-        try:
-            return len(tables[self.name])
-        except KeyError:
-            return 0
 
     def __iter__(self) -> Iterator[Document]:
         """

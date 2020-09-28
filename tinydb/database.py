@@ -93,12 +93,9 @@ class TinyDB:
 
     def __repr__(self):
         args = [
-            'tables={}'.format(list(self.tables())),
-            'tables_count={}'.format(len(self.tables())),
-            'default_table_documents_count={}'.format(self.__len__()),
-            'all_tables_documents_count={}'.format(
-                ['{}={}'.format(table, len(self.table(table)))
-                 for table in self.tables()]),
+            'table_class={}'.format(self.table_class.__name__),
+            'default_storage_class={}'.format(self.default_storage_class.__name__),
+            'default_table_name={}'.format(self.default_table_name),
         ]
 
         return '<{} {}>'.format(type(self).__name__, ', '.join(args))
@@ -251,16 +248,6 @@ class TinyDB:
 
     # Here we forward magic methods to the default table instance. These are
     # not handled by __getattr__ so we need to forward them manually here
-
-    def __len__(self):
-        """
-        Get the total number of documents in the default table.
-
-        >>> db = TinyDB('db.json')
-        >>> len(db)
-        0
-        """
-        return len(self.table(self.default_table_name))
 
     def __iter__(self) -> Iterator[Document]:
         """
