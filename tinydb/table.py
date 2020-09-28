@@ -113,7 +113,7 @@ class Table:
     def __repr__(self):
         args = [
             'name={!r}'.format(self.name),
-            'storage={}'.format(self.storage.__name__),
+            'storage={}'.format(type(self.storage).__name__),
         ]
 
         return '<{} {}>'.format(type(self).__name__, ', '.join(args))
